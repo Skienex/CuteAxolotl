@@ -1,19 +1,27 @@
 plugins {
-    id("java")
+    java
+    id("io.papermc.paperweight.userdev") version "1.3.8"
 }
 
 group = "com.github.skienex"
 version = "1.0-SNAPSHOT"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(18))
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    paperDevBundle("1.19.1-R0.1-SNAPSHOT")
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+tasks {
+    assemble {
+        dependsOn(reobfJar)
+    }
 }
